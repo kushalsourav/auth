@@ -28,7 +28,26 @@ const userSchema = new mongoose.Schema({
     password : {
         type:String,
         required: true
+    },
+    habits : [
+        {
+        name: {
+            type:String,
+            required:true
+        },
+        dateAdded : {
+            type: String,
+            required: true
+        },
+        icon : {
+            type:String,
+            required: true
+        },
+        colorCode : {
+            type:String
+        },
     }
+    ]
 }, {collection: "habits"})
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'))
