@@ -1,8 +1,9 @@
 // getting-started.js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const dataBaseUrl = 'mongodb+srv://ashborn:ashborn@habit.ku84wy2.mongodb.net/habit-tracker';
-mongoose.connect(dataBaseUrl, {useNewUrlParser  :true})
+const dataBaseUrl =
+  "mongodb+srv://ashborn:ashborn@habit.ku84wy2.mongodb.net/habit-tracker";
+mongoose.connect(dataBaseUrl, { useNewUrlParser: true });
 // main().catch(err => console.log(err));
 
 // async function main() {
@@ -11,48 +12,70 @@ mongoose.connect(dataBaseUrl, {useNewUrlParser  :true})
 //   // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 // }
 
-const userSchema = new mongoose.Schema({
-    username : {
-      type:String,
-      unique:true,
-      required: true
-      
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      unique: true,
+      required: true,
     },
-    email : {
-        type: String,
-        unique: true,
-        required: true,
-        lowercase: true,
-        trim: true
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      lowercase: true,
+      trim: true,
     },
-    password : {
-        type:String,
-        required: true
+    password: {
+      type: String,
+      required: true,
     },
-    habits : [
-        {
+    habits: [
+      {
         name: {
-            type:String,
-            required:true
+          type: String,
+          required: true,
         },
-        dateAdded : {
-            type: String,
-            required: true
+        dateAdded: {
+          type: String,
+          required: true,
         },
-        icon : {
-            type:String,
-            required: true
+        icon: {
+          type: String,
+          required: true,
         },
-        colorCode : {
-            type:String
+        colorCode: {
+          type: String,
         },
-    }
-    ]
-}, {collection: "habits"})
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', function () {
-    console.log('DB connected')
-})
+      },
+    ],
+    goals: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        dateAdded: {
+          type: String,
+          required: true,
+        },
+        icon: {
+          type: String,
+          required: true,
+        },
+        colorCode: {
+          type: String,
+        },
+      },
+    ],
+  },
+  { collection: "habits" },
+);
 
-exports.User = mongoose.model("user", userSchema)
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+  console.log("DB connected");
+});
+
+exports.User = mongoose.model("user", userSchema);
