@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 
 app.post('/user/signup', (req, res) => {
     if (!req.body.email || !req.body.password || !req.body.username) {
-        res.json({ success: false, eror: "Send needed params" })
+        res.json({ success: false, error: "Please fill the form" })
         return
     }
     dataBase.User.create({
@@ -29,7 +29,6 @@ app.post('/user/signup', (req, res) => {
         username: req.body.username,
         password: bCrypt.hashSync(req.body.password),
     }).then((user) => {
-        console.log(user)
         const token = jsonWebToken.sign({ id: user._id, email: user.email }, Secret_JWT_TOKEN)
         res.json({ success: true, token: token })
     }).catch((err) => {
@@ -54,7 +53,6 @@ app.post('/user/login', (req, res) => {
             res.status(404)
         )
     }
-    console.log("Email received:", typeof (req.body.email));
     dataBase.User.findOne({
         email: req.body.email
     }).then((user) => {
@@ -65,7 +63,6 @@ app.post('/user/login', (req, res) => {
             if (!bCrypt.compareSync(req.body.password, user.password)) {
                 res.json({ success: false, error: "password doesnt match" })
             } else {
-                console.log(user)
                 const token = jsonWebToken.sign({ id: user._id, email: user.email }, Secret_JWT_TOKEN)
                 res.json({ success: true, token: token, result: "Login succesfull", user: user })
             }
@@ -198,9 +195,8 @@ app.post('/users/habit/update/:habitId', checkToken, async (req, res) => {
                if(!user) {
                 res.status(404).json({message:"user not found"})
                }
-               
+            
                 const habitIndex = user.habits.findIndex(habit => habit._id.equals(habitId))
-
                 user.habits[habitIndex].set({name,dateAdded, icon,colorCode})
                  user.save()
                res.json({message: "successfully updated", habits:user.habits})
